@@ -6,7 +6,7 @@ A_star 2D
 import os
 import sys
 import math
-import heapq
+import heapq # 堆队列（heap queue）
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
                 "/../../Search_based_Planning/")
@@ -15,7 +15,7 @@ from Search_2D import plotting, env
 
 
 class AStar:
-    """AStar set the cost + heuristics as the priority
+    """AStar set the cost + heuristics as the priority 以代价+启发式值作为优先级
     """
     def __init__(self, s_start, s_goal, heuristic_type):
         self.s_start = s_start
@@ -24,13 +24,13 @@ class AStar:
 
         self.Env = env.Env()  # class Env
 
-        self.u_set = self.Env.motions  # feasible input set
-        self.obs = self.Env.obs  # position of obstacles
+        self.u_set = self.Env.motions  # feasible input set 可行运动方向集合
+        self.obs = self.Env.obs  # position of obstacles 障碍物的坐标集合
 
         self.OPEN = []  # priority queue / OPEN set
         self.CLOSED = []  # CLOSED set / VISITED order
         self.PARENT = dict()  # recorded parent
-        self.g = dict()  # cost to come
+        self.g = dict()  # cost to come 到达当前节点的代价
 
     def searching(self):
         """
@@ -41,7 +41,7 @@ class AStar:
         self.PARENT[self.s_start] = self.s_start
         self.g[self.s_start] = 0
         self.g[self.s_goal] = math.inf
-        heapq.heappush(self.OPEN,
+        heapq.heappush(self.OPEN, # 堆队列（heap queue）
                        (self.f_value(self.s_start), self.s_start))
 
         while self.OPEN:
