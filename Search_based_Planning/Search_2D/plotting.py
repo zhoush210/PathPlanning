@@ -95,7 +95,7 @@ class Plotting:
             #
             # length = 15
 
-            if count % length == 0:
+            if count % length == 0: # 每隔length个点显示延时一次
                 plt.pause(0.001)
         plt.pause(0.01)
 

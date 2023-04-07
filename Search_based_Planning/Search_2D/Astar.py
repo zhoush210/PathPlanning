@@ -38,31 +38,34 @@ class AStar:
         :return: path, visited order
         """
 
+        # 初始化起点和终点的值
         self.PARENT[self.s_start] = self.s_start
         self.g[self.s_start] = 0
         self.g[self.s_goal] = math.inf
+        # 将起点加入到堆队列中
         heapq.heappush(self.OPEN, # 堆队列（heap queue）
                        (self.f_value(self.s_start), self.s_start))
 
         while self.OPEN:
-            _, s = heapq.heappop(self.OPEN)
-            self.CLOSED.append(s)
+            _, s = heapq.heappop(self.OPEN) # 从堆队列中弹出节点
+            self.CLOSED.append(s) # 将当前节点加入到CLOSED列表中
 
-            if s == self.s_goal:  # stop condition
+            if s == self.s_goal:  # stop condition 终点为停止条件
                 break
 
             for s_n in self.get_neighbor(s):
-                new_cost = self.g[s] + self.cost(s, s_n)
+                new_cost = self.g[s] + self.cost(s, s_n) # 计算节点的代价
 
                 if s_n not in self.g:
                     self.g[s_n] = math.inf
 
+                # 更新节点的代价
                 if new_cost < self.g[s_n]:  # conditions for updating Cost
                     self.g[s_n] = new_cost
                     self.PARENT[s_n] = s
                     heapq.heappush(self.OPEN, (self.f_value(s_n), s_n))
 
-        return self.extract_path(self.PARENT), self.CLOSED
+        return self.extract_path(self.PARENT), self.CLOSED # 提取路径和访问顺序
 
     def searching_repeated_astar(self, e):
         """
@@ -179,17 +182,17 @@ class AStar:
         :return: The planning path
         """
 
-        path = [self.s_goal]
+        path = [self.s_goal] # 将终点加入到路径中
         s = self.s_goal
 
         while True:
-            s = PARENT[s]
-            path.append(s)
+            s = PARENT[s] # 获取节点的父节点
+            path.append(s) # 将节点加入到路径中
 
-            if s == self.s_start:
+            if s == self.s_start:  # 起点为停止条件
                 break
 
-        return list(path)
+        return list(path) # 返回路径列表
 
     def heuristic(self, s):
         """
